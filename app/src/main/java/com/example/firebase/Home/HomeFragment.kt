@@ -5,9 +5,10 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.firebase.R
+import com.example.firebase.adapter.DusunceAdapter
 import com.example.firebase.databinding.FragmentHomeBinding
-import com.example.firebase.databinding.FragmentLoginBinding
 import com.example.firebase.model.Paylasim
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     val db = Firebase.firestore
     var paylasimListesi = ArrayList<Paylasim>()
+    private lateinit var adapter: DusunceAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +42,14 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         checkEmailVerifiedOrNot()
         getDatas()
+        setRecyclerView()
+    }
+
+    private fun setRecyclerView() {
+        adapter = DusunceAdapter(paylasimListesi)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
+
     }
 
     private fun getDatas() {
